@@ -77,6 +77,16 @@ var startGame = function () {
       var pickedEnemyName = enemyNames[i];
       enemyHealth=50;
       fight(pickedEnemyName);
+      
+      if (i< enemyNames.length-1 && playerHealth>0) {
+        //ask the player if they want to visit the shop
+        var storeConfrim = window.confirm("The fight is over. Want to visit the store before the next round?");
+
+        //if yes visit the shop
+        if (storeConfrim) {
+          shop();
+        }
+      };
     }
     else {
       window.alert("You have lost your robot in battle! Game Over!");
@@ -107,6 +117,54 @@ var endGame = function () {
   }
 };
 
+var shop = function() {
+  //ask player what they'd like to do
+  var shopOptionPrompt = window.prompt(
+    "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice."
+    );
+    
+    //use switch to carry out action
+    switch (shopOptionPrompt) {
+      case "REFILL":
+      case "refill":
+        if (playerMoney >= 7) {
+          window.alert("Refilling player's health by 20 points for 7 coins.");
+
+          //increase health and decrease money
+          playerHealth = playerHealth + 20;
+          playerMoney = playerMoney -7;
+          break;
+        }
+        else {
+          window.alert ("You don't have enough money!")
+        }
+      case "UPGRADE":
+      case "upgrade":
+        if (playerMoney >=7) {
+          window.alert("Upgrading player's attack by 6 points for 7 coins.");
+
+          //increase attack; decrease money
+          playerAttack = playerAttack + 6;
+          playerMoney = playerMoney -7;
+          break;
+        }
+        else {
+          window.alert ("You don't have enough money!")
+        }
+      case "LEAVE":
+      case "leave":
+        window.alert ("Leaving the store.")
+
+        //do nothing so function will end
+        break;
+      default:
+        window.alert("You did not pick a valid option. Try again.");
+
+        //call shop() again to force player to pick a valid option
+        shop();
+        break;
+    }
+};
 
 //start the game when the page loads.
 startGame ();
